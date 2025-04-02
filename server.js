@@ -8,8 +8,8 @@ app.use(express.static("public"));
 app.get("/api", (req, res) => {
   const currentDate = new Date();
   res.json({
-    unix: currentDate.getTime(),
-    utc: currentDate.toUTCString(),
+    unix: currentDate.getTime(), // Current time in milliseconds
+    utc: currentDate.toUTCString(), // Current time in UTC format
   });
 });
 
@@ -23,7 +23,8 @@ app.get("/api/:date?", (req, res) => {
     date = new Date();
   } else if (/^\d+$/.test(dateParam)) {
     // If dateParam is a timestamp (e.g., 1451001600000)
-    date = new Date(parseInt(dateParam));
+    const timestamp = Number(dateParam); // Ensure it's a number
+    date = new Date(timestamp);
   } else {
     // If dateParam is a string (e.g., "2015-12-25")
     date = new Date(dateParam);
@@ -34,7 +35,7 @@ app.get("/api/:date?", (req, res) => {
   }
 
   res.json({
-    unix: date.getTime(),
+    unix: date.getTime(), // Always a number
     utc: date.toUTCString(),
   });
 });
